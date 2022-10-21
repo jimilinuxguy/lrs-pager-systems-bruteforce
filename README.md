@@ -47,3 +47,8 @@ Custom_preset_data: 02 0D 07 04 08 32 0B 06 10 64 11 93 12 0C 13 02 14 00 15 15 
 ```
 
 
+
+
+[Video of Flipper Zero sending LRS Pager signal](https://user-images.githubusercontent.com/164560/197110407-72ee0c76-43b3-4316-8f29-14f44c3e1a8e.mov)
+
+
