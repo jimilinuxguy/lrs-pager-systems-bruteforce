@@ -37,3 +37,13 @@ The crc is given by taking the sum of the hex values and then taking the modulus
 For restauraunt 0 and pager 0 (all) with an alert type of 1 the value would be
 aaaaaafc2d0000000000000000012b
 ```
+
+
+```
+Flipper Zero custom preset modulation for decoding LRS pagers:
+Custom_preset_name: Pagers
+Custom_preset_module: CC1101
+Custom_preset_data: 02 0D 07 04 08 32 0B 06 10 64 11 93 12 0C 13 02 14 00 15 15 18 18 19 16 1B 07 1C 00 1D 91 20 FB 21 56 22 10 00 00 C0 00 00 00 00 00 00 00
+```
+
+
