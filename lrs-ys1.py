@@ -1,7 +1,4 @@
-import binascii
 from rflib import *
-from bitarray import bitarray
-from bitarray.util import *
 
 def calculate_crc( pre, sink_word, rest_id, station_id, pager_n, alert_type ):
 
