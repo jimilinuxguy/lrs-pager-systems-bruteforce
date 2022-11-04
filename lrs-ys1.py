@@ -78,6 +78,20 @@ print(alert_type)
 if (alert_type == 99):
     alert_type=int(input("Enter manual alert type: "))
 
+
+
+repeat_options = ["Repeat Once|1", "Repeat Indefinitely|999", "Manually Enter|Manually"]
+repeat_terminal_menu = TerminalMenu(repeat_options)
+repeat_menu_entry_index = repeat_terminal_menu.show()
+repeat_entry = repeat_options[repeat_menu_entry_index].lower()
+
+if ('manually' in repeat_entry):
+     repeat_number=int(input('Enter repeat amount: '))
+elif ('once' in repeat_entry):
+     repeat_number=0
+else:
+     repeat_number=9999
+
 d = RfCat()
 d.setMdmModulation(MOD_2FSK)
 d.setFreq(467750000)
@@ -111,6 +125,7 @@ for rest_id in range(rest_start,rest_end):
      else:
           print(pre+sink_word+rest_id+station_id+pager_n+alert_command)
           crc_out = calculate_crc(pre, sink_word, rest_id, station_id, pager_n, alert_command)     
-
-     d.RFxmit(bytes.fromhex(crc_out))
+     for repeat in range(0, repeat_number ):
+          print("Repeating ", repeat)
+          d.RFxmit(bytes.fromhex(crc_out))
      d.setModeIDLE()
