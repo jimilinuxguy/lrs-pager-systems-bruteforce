@@ -1,5 +1,5 @@
 from rflib import *
-from simple_term_menu import TerminalMenu
+from consolemenu import SelectionMenu
 
 
 def calculate_crc(pre, sink_word, rest_id, station_id, pager_n, alert_type):
@@ -46,9 +46,13 @@ def calculate_program_crc(pre, sink_word, rest_id, station_id, pager_n, misc1, a
 
 rest_options = ["Brute Force All Restaurants",
                 "Prompt Restaurant ID", "Reprogram pager"]
-rest_terminal_menu = TerminalMenu(rest_options)
-rest_menu_entry_index = rest_terminal_menu.show()
+rest_terminal_menu = SelectionMenu(rest_options, "Select an option")
+rest_terminal_menu.show()
+rest_terminal_menu.join()
+
+rest_menu_entry_index = rest_terminal_menu.selected_option
 rest_entry = rest_options[rest_menu_entry_index].lower()
+
 
 if ('prompt' in rest_entry or 'reprogram' in rest_entry):
     rest_start = int(input('Enter restauraunt id: '))
@@ -58,15 +62,17 @@ else:
     rest_end = 255 + 1
 
 if ('reprogram' not in rest_entry):
-    pager_options = ["Target All Pagers (0)|0", "Specify Pager ID|prompt"]
-    pager_terminal_menu = TerminalMenu(pager_options)
-    pager_menu_entry_index = pager_terminal_menu.show()
+    pager_options = ["Target All Pagers (0)", "Prompt for Pager ID"]
+    pager_terminal_menu = SelectionMenu(pager_options, "Select an option")
+    pager_terminal_menu.show()
+    pager_terminal_menu.join()
+    pager_menu_entry_index = pager_terminal_menu.selected_option
 
 else:
     pager_options = [""]
     pager_menu_entry_index = 0
 
-pager_entry = pager_options[pager_menu_entry_index]
+pager_entry = pager_options[pager_menu_entry_index].lower()
 
 if ('prompt' in pager_entry or 'reprogram' in rest_entry):
     pager_number = int(input('Enter pager number: '))
@@ -79,18 +85,21 @@ alert_options = ["Flash 30 Seconds|1", "Flash 5 Minutes|2", "Flash/Beep 5X5|3", 
 if ('reprogram' in rest_options[rest_menu_entry_index].lower()):
     alert_options = ["Vibrate |1", "Dont Vibrate |0"]
 
-alert_terminal_menu = TerminalMenu(alert_options)
-alert_menu_entry_index = alert_terminal_menu.show()
+alert_terminal_menu = SelectionMenu(alert_options, "Select an option")
+alert_terminal_menu.show()
+alert_terminal_menu.join()
+alert_menu_entry_index = alert_terminal_menu.selected_option
 alert_type = int(alert_options[alert_menu_entry_index].split('|')[1])
 print(alert_type)
 if (alert_type == 99):
     alert_type = int(input("Enter manual alert type: "))
 
 
-repeat_options = ["Repeat Once|1",
-                  "Repeat Indefinitely|999", "Manually Enter|Manually"]
-repeat_terminal_menu = TerminalMenu(repeat_options)
-repeat_menu_entry_index = repeat_terminal_menu.show()
+repeat_options = ["Repeat Once",
+                  "Repeat Indefinitely", "Manually Enter"]
+repeat_terminal_menu = SelectionMenu(repeat_options, "Select an option")
+repeat_terminal_menu.show()
+repeat_menu_entry_index = repeat_terminal_menu.selected_option
 repeat_entry = repeat_options[repeat_menu_entry_index].lower()
 
 if ('manually' in repeat_entry):
@@ -100,7 +109,7 @@ elif ('once' in repeat_entry):
 else:
     repeat_number = 9999
 
-
+print(rest_start, rest_end, pager_number, alert_type, repeat_number)
 d = RfCat()
 d.setMdmModulation(MOD_2FSK)
 d.setFreq(467750000)
@@ -134,7 +143,8 @@ for rest_id in range(rest_start, rest_end):
         print(pre+sink_word+rest_id+station_id+pager_n+alert_command)
         crc_out = calculate_crc(pre, sink_word, rest_id,
                                 station_id, pager_n, alert_command)
-    for repeat in range(0, repeat_number):
+    print("repeat = " + str(repeat_number))
+    for repeat in range(0, repeat_number + 1):
         print("Repeating ", repeat)
         d.RFxmit(bytes.fromhex(crc_out))
     d.setModeIDLE()

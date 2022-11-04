@@ -6,7 +6,7 @@ Inspired by [Tony Tiger's prior work using the HackRF One](https://github.com/to
 
 I used the [LRS Transmitter Tuneup manual](https://fccid.io/2AB6OTX1605/Parts-List-Tune-Up-Info/Tune-Up-Procedures-2357525) to verify the center frequency, deviation, modulation and 
 
-This script requires nothing more than [RfCat](https://github.com/atlas0fd00m/rfcat) and simple_term_menu
+This script requires nothing more than [RfCat](https://github.com/atlas0fd00m/rfcat) and console-menu
 
 ```
 pip install -r requirements.txt
