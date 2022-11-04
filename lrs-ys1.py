@@ -48,7 +48,7 @@ if ('prompt' in rest_entry or 'reprogram' in rest_entry):
      rest_end=rest_start+1
 else:
      rest_start=0
-     rest_end=255
+     rest_end=255 + 1
 
 if ('reprogram' not in rest_entry):
      pager_options = ["Target All Pagers (0)|0", "Specify Pager ID|prompt"]
@@ -66,15 +66,17 @@ if ('prompt' in pager_entry or 'reprogram' in rest_entry ):
 else:
      pager_number=0
 
-alert_options = ["Flash 30 Seconds|1", "Flash 5 Minutes|2", "Flash/Beep 5X5|3","Beep 3 Times|4","Beep 5 Minutes|5","Glow/Vib 15 Times|7", "Flash/Vib 1 Second|10","Beep 3 times|68"]
+alert_options = ["Flash 30 Seconds|1", "Flash 5 Minutes|2", "Flash/Beep 5X5|3","Beep 3 Times|4","Beep 5 Minutes|5","Glow/Vib 15 Times|7", "Flash/Vib 1 Second|10","Beep 3 times|68", "Manually enter|99"]
 
 if ('reprogram'  in rest_options[rest_menu_entry_index].lower()):
      alert_options = ["Vibrate |1", "Dont Vibrate |0"]
 
 alert_terminal_menu = TerminalMenu(alert_options)
 alert_menu_entry_index = alert_terminal_menu.show()
-alert_type = alert_options[alert_menu_entry_index].split('|')[1]
-
+alert_type = int(alert_options[alert_menu_entry_index].split('|')[1])
+print(alert_type)
+if (alert_type == 99):
+    alert_type=int(input("Enter manual alert type: "))
 
 d = RfCat()
 d.setMdmModulation(MOD_2FSK)
@@ -110,6 +112,5 @@ for rest_id in range(rest_start,rest_end):
           print(pre+sink_word+rest_id+station_id+pager_n+alert_command)
           crc_out = calculate_crc(pre, sink_word, rest_id, station_id, pager_n, alert_command)     
 
-     d.RFxmit(bytes.fromhex(crc_out))
      d.RFxmit(bytes.fromhex(crc_out))
      d.setModeIDLE()
