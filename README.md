@@ -24,6 +24,7 @@ Sample Rate: 2M
 This script will brute-force all restauraunt ids, blasting all pagers (pager id 0) with the command to flash for 30 seconds.
 
 <details><summary>Alert Command Options</summary>
+  
 ```
 Alert Commands
 1 Flash 30 Seconds
@@ -54,6 +55,7 @@ aaaaaafc2d0000000000000000012b
 
 
 <details><summary>Flipper Zero custom preset modulation for decoding LRS pagers</summary>
+  
 ```
 Flipper Zero custom preset modulation for decoding LRS pagers:
 Custom_preset_name: Pagers
